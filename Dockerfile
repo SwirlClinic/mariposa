@@ -64,7 +64,7 @@ RUN set -eux; \
     ln -s ${HOME}/.steam/sdk32/steamclient.so ${HOME}/.steam/sdk32/steamservice.so; \
     ln -s ${HOME}/.steam/sdk64/steamclient.so ${HOME}/.steam/sdk64/steamservice.so;
 
-
+RUN ln -s "${HOME}/.local/share/Steam/steamcmd/linux64/steamclient.so" "/usr/lib/x86_64-linux-gnu/steamclient.so"
 
 # Set default command
 ENTRYPOINT ["steamcmd"]
