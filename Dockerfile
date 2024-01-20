@@ -7,7 +7,6 @@ FROM --platform=linux/amd64 debian:12-slim
 ENV USER steam
 ENV HOME "/home/${USER}"
 ENV APP "/app"
-ENV STEAMCMDDIR "${APP}/steamcmd"
 
 ENV CPU_MHZ ${CPU_MHZ:-3000}
 
@@ -44,6 +43,11 @@ RUN echo steam steam/question select "I AGREE" | debconf-set-selections \
 RUN apt-get install -y --no-install-recommends ca-certificates locales steamcmd \
 	&& rm -rf /var/lib/apt/lists/* 
 
+# Add unicode support
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen \
+ && locale-gen en_US.UTF-8
+ENV LANG 'en_US.UTF-8'
+ENV LANGUAGE 'en_US:en'
 
 # Create symlink for executable
 RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
