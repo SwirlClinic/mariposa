@@ -32,7 +32,7 @@ RUN set -x \
 		sudo \
         curl \
 		wget \
-        python3 libfreetype6 \
+        python3 libfreetype6 libfreetype6:i386 \
 		lib32gcc-s1 lib32stdc++6 \
 		lib32z1 \
 		libtinfo5:i386 \
