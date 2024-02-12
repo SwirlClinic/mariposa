@@ -1,0 +1,1 @@
+Probably need to set ENV `STEAM_COMPAT_CLIENT_INSTALL_PATH` and `STEAM_COMPAT_DATA_PATH` since we're using glorious eggroll

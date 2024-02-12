@@ -6,9 +6,13 @@ FROM --platform=linux/amd64 debian:12-slim
 # Set environment variables
 ENV USER steam
 ENV HOME "/home/${USER}"
+ENV PROTON_DIR "${HOME}/proton-ge"
 ENV APP "/app"
 
 ENV CPU_MHZ ${CPU_MHZ:-3000}
+
+ENV PROTON_VERSION=GE-Proton8-28
+ENV PROTON=${PROTON_DIR}/${PROTON_VERSION}/proton
 
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
@@ -28,6 +32,7 @@ RUN set -x \
 		sudo \
         curl \
 		wget \
+        python3 libfreetype6 \
 		lib32gcc-s1 lib32stdc++6 \
 		lib32z1 \
 		libtinfo5:i386 \
@@ -54,6 +59,12 @@ RUN ln -s /usr/games/steamcmd /usr/bin/steamcmd
 
 # Set working directory
 WORKDIR $HOME
+
+# Setup Proton
+RUN mkdir -p ${PROTON_DIR}
+RUN wget --directory-prefix ${PROTON_DIR} -O - \
+    https://github.com/GloriousEggroll/proton-ge-custom/releases/download/${PROTON_VERSION}/${PROTON_VERSION}.tar.gz \
+    | tar -xz -C ${PROTON_DIR}/
 
 # Fix missing directories and libraries
 RUN set -eux; \
